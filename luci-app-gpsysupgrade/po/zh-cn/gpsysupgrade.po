@@ -2,7 +2,7 @@ msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
 msgid "System upgrade"
-msgstr "系统在线更新"
+msgstr "系统升级"
 
 msgid "Upgrade..."
 msgstr "更新中"
