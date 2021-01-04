@@ -10,6 +10,12 @@ msgstr "更新中"
 msgid "Current system version"
 msgstr "当前固件版本"
 
+msgid "Keep settings and retain the current configuration"
+msgstr "保留当前固件配置"
+
+msgid "Retain the current packages"
+msgstr "保留插件包"
+
 msgid "It is the latest version,Reflash?"
 msgstr "已是最新版,重刷此版本?"
 
@@ -21,7 +27,6 @@ msgstr "点击更新"
 
 msgid "Upgrading..."
 msgstr "更新中"
-
 msgid "Checking..."
 msgstr "正在检查更新"
 
