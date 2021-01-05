@@ -2,10 +2,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pdnsd
 PKG_VERSION:=1.2.9b-par
-PKG_RELEASE=$(PKG_SOURCE_VERSION)
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/shadowsocks/pdnsd.git
+PKG_MIRROR_HASH:=c4093a2a21cc44228f4fad536c3303e5d263f400b5ca6ec04fe17bb705f5b92e
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=a8e46ccba7b0fa2230d6c42ab6dcd92926f6c21d
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
@@ -38,8 +39,7 @@ TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include
 CMAKE_OPTIONS += -DDEBUG=1
 
 CONFIGURE_ARGS += \
-		--with-cachedir=/var/pdnsd \
-		--with-target=Linux
+		--with-cachedir=/var/pdnsd
 
 define Package/pdnsd-alt/install
 	$(INSTALL_DIR) $(1)/usr/sbin
