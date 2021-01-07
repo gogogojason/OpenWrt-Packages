@@ -15,7 +15,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/Xray-core-$(PKG_VERSION)
 
 PKG_SOURCE:=xray-core-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/XTLS/xray-core/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=skip
+PKG_HASH:=1e32fac7a4c669751087aa6b32d922ea312afcde025866099d56cea936761d51
 
 PKG_LICENSE:=MPL
 PKG_LICENSE_FILES:=LICENSE
@@ -24,7 +24,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_XRAY_EXCLUDE_ASSETS \
 	CONFIG_XRAY_COMPRESS_GOPROXY \
 	CONFIG_XRAY_COMPRESS_UPX \
-	CONFIG_XRAY_PROVIDE_V2RAY
+	CONFIG_XRAY_COMPATIBILITY_MODE
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
@@ -43,8 +43,9 @@ define Package/$(PKG_NAME)
   TITLE:=A platform for building proxies
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=Web Servers/Proxies
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
+  SUBMENU:=Project X
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-certificates
+#  PROVIDES:=v2ray
 endef
 
 define Package/$(PKG_NAME)/description
@@ -58,10 +59,6 @@ define Package/$(PKG_NAME)/config
 menu "Xray Configuration"
 	depends on PACKAGE_xray
 
-config XRAY_PROVIDE_V2RAY
-	bool "Provide V2RAY binary using XRAY"
-	default y
-
 config XRAY_COMPRESS_GOPROXY
 	bool "Compiling with GOPROXY proxy"
 	default n
@@ -73,6 +70,10 @@ config XRAY_EXCLUDE_ASSETS
 config XRAY_COMPRESS_UPX
 	bool "Compress executable files with UPX"
 	default y
+
+config XRAY_COMPATIBILITY_MODE
+	bool "V2ray Compatibility mode(v2ray soft connection Xray)"
+	default n
 endmenu
 endef
 
@@ -106,8 +107,8 @@ define Build/Prepare
 	$(call Build/Prepare/Default)
 ifneq ($(CONFIG_XRAY_EXCLUDE_ASSETS),y)
 	# move file to make sure download new file every build
-	mv -f $(DL_DIR)/$(GEOIP_FILE) $(PKG_BUILD_DIR)/release/config/geoip.dat
-	mv -f $(DL_DIR)/$(GEOSITE_FILE) $(PKG_BUILD_DIR)/release/config/geosite.dat
+	mv -f $(DL_DIR)/$(GEOIP_FILE) $(PKG_BUILD_DIR)/geoip.dat
+	mv -f $(DL_DIR)/$(GEOSITE_FILE) $(PKG_BUILD_DIR)/geosite.dat
 endif
 endef
 
@@ -123,12 +124,12 @@ endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/xray $(1)/usr/bin
-ifeq ($(CONFIG_XRAY_PROVIDE_V2RAY),y)
+ifeq ($(CONFIG_XRAY_COMPATIBILITY_MODE),y)
 	$(LN) xray $(1)/usr/bin/v2ray
 endif
 ifneq ($(CONFIG_XRAY_EXCLUDE_ASSETS),y)
 	$(INSTALL_DIR) $(1)/usr/share/xray
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/release/config/{geoip,geosite}.dat $(1)/usr/share/xray
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/{geoip,geosite}.dat $(1)/usr/share/xray
 endif
 endef
 

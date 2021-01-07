@@ -1,4 +1,4 @@
-msgid "端口转发"
+msgid "Socat"
 msgstr "Socat"
 
 msgid "Socat is a versatile networking tool named after 'Socket CAT', which can be regarded as an N-fold enhanced version of NetCat"
