@@ -57,6 +57,11 @@ function to_check()
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", updatelogs, "http://openwrt.ink:8666/firmware/nanopi-r2s/updatelogs.txt"}, nil, api.command_timeout)
 		check_update()
         download_url = "http://openwrt.ink:8666/firmware/nanopi-r2s/" ..dateyr.. "-openwrt-rockchip-armv8-nanopi-r2s-squashfs-sysupgrade.img.gz"
+    elseif model:match(".*R4S.*") then
+		api.exec(api.curl, {api._unpack(api.curl_args), "-o", version_file, "http://openwrt.ink:8666/firmware/nanopi-r4s/version.txt"}, nil, api.command_timeout)
+		api.exec(api.curl, {api._unpack(api.curl_args), "-o", updatelogs, "http://openwrt.ink:8666/firmware/nanopi-r4s/updatelogs.txt"}, nil, api.command_timeout)
+		check_update()
+        download_url = "http://openwrt.ink:8666/firmware/nanopi-r4s/" ..dateyr.. "-openwrt-rockchip-armv8-nanopi-r4s-squashfs-sysupgrade.img.gz"
     elseif model:match(".*HC5962.*") then
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", version_file, "http://openwrt.ink:8666/firmware/hiwifi-hc5962/version.txt"}, nil, api.command_timeout)
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", updatelogs, "http://openwrt.ink:8666/firmware/hiwifi-hc5962/updatelogs.txt"}, nil, api.command_timeout)
@@ -72,8 +77,8 @@ function to_check()
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", updatelogs, "http://openwrt.ink:8666/firmware/XY-C5/updatelogs.txt"}, nil, api.command_timeout)
 		check_update()
 		if remoteformat > sysverformat and currentTimeStamp > remoteformat then needs_update = true else needs_update = false end
-        download_url = "http://openwrt.ink:8666/firmware/XY-C5/" ..dateyr.. "-openwrt-ramips-mt7621-xiaoyu_xy-c5-squashfs-sysupgrade.bin"
-    elseif model:match(".*4B.*") then
+        download_url = "http://openwrt.ink:8666/firmware/XY-C5/" ..dateyr.. "-openwrt-ramips-mt7621-xy-c5-squashfs-sysupgrade.bin"
+    elseif model:match(".*Pi 4 Model B.*") then
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", version_file, "http://openwrt.ink:8666/firmware/Rpi-4B/version.txt"}, nil, api.command_timeout)
 		api.exec(api.curl, {api._unpack(api.curl_args), "-o", updatelogs, "http://openwrt.ink:8666/firmware/Rpi-4B/updatelogs.txt"}, nil, api.command_timeout)
 		check_update()
